@@ -1,0 +1,21 @@
+Docker
+Build and start all services in the background: docker-compose up --build
+
+Stop everything: docker-compose down
+
+View logs for Celery: docker-compose logs -f celery
+
+Run migrations inside Docker: docker-compose exec backend python manage.py migrate
+
+Create a superuser: docker-compose exec backend python manage.py createsuperuser
+
+Backend
+
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver 8000
+
+Frontend
+cd frontend
+npm install
+npm run dev
