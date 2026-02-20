@@ -1,0 +1,45 @@
+
+services:
+  # 1. Redis: Broker for Celery
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  # 2. Django Backend
+  backend:
+    build: ./backend
+    container_name: django_backend
+    volumes:
+      - ./backend:/app
+      - media_data:/app/media  # Shared volume for uploads
+    ports:
+      - "8000:8000"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - redis
+
+  # 3. Celery Worker (Parses the CSV/PDFs)
+  celery:
+    build: ./backend
+    container_name: celery_worker
+    volumes:
+      - ./backend:/app
+      - media_data:/app/media  # Shared volume MUST match backend
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    command: celery -A backend worker --loglevel=info
+    depends_on:
+      - redis
+      - backend
+
+# Named volume to ensure files persist and are shared
+volumes:
+  media_data:
