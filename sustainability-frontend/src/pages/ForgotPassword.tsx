@@ -28,7 +28,9 @@ export default function ForgotPassword() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-500 text-white">
               <Leaf size={14} />
             </div>
-            <span className="text-2xl font-semibold text-zinc-900">Sustainability Tracker</span>
+            <span className="text-2xl font-semibold text-zinc-900">
+              Sustainability Tracker
+            </span>
           </div>
 
           <button
@@ -53,21 +55,27 @@ export default function ForgotPassword() {
             </div>
 
             <div className="text-center">
-              <h1 className="text-4xl font-bold tracking-tight text-zinc-900">Forgot password?</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-zinc-900">
+                Forgot password?
+              </h1>
               <p className="mt-2 text-zinc-500">
-                No worries, we&apos;ll send you reset instructions to your inbox.
+                No worries, we&apos;ll send you reset instructions to your
+                inbox.
               </p>
             </div>
 
             {submitted ? (
               <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700">
-                Reset instructions were sent to <span className="font-semibold">{email}</span>.
+                Reset instructions were sent to{" "}
+                <span className="font-semibold">{email}</span>.
               </div>
             ) : null}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-medium text-zinc-700">Email Address</label>
+                <label className="mb-1 block text-sm font-medium text-zinc-700">
+                  Email Address
+                </label>
                 <div className="flex items-center gap-2 rounded-xl border border-zinc-300 bg-zinc-50 px-3 py-2.5 focus-within:border-green-500">
                   <Mail className="h-4 w-4 text-zinc-400" />
                   <input

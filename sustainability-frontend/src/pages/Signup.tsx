@@ -49,7 +49,9 @@ export default function Signup() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-500 text-white">
               <Leaf size={14} />
             </div>
-            <span className="text-2xl font-semibold text-zinc-900">EcoTrack</span>
+            <span className="text-2xl font-semibold text-zinc-900">
+              EcoTrack
+            </span>
           </div>
 
           <Link
@@ -163,7 +165,10 @@ export default function Signup() {
 
           <p className="mt-5 text-center text-sm text-zinc-500">
             Already have an account?
-            <Link to="/login" className="ml-1 font-semibold text-green-600 hover:underline">
+            <Link
+              to="/login"
+              className="ml-1 font-semibold text-green-600 hover:underline"
+            >
               Log in
             </Link>
           </p>

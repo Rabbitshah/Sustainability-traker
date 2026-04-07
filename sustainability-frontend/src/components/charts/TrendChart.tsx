@@ -21,7 +21,9 @@ export default function TrendChart({ data, total, deltaText }: Props) {
           <p className="text-2xl font-semibold text-zinc-900 transition-colors">
             CO2 Consumption Trends
           </p>
-          <p className="text-sm text-zinc-500 transition-colors">Last 7 Days Breakdown</p>
+          <p className="text-sm text-zinc-500 transition-colors">
+            Last 7 Days Breakdown
+          </p>
         </div>
         <div className="text-right">
           <p className="text-4xl font-bold text-zinc-900 transition-colors">

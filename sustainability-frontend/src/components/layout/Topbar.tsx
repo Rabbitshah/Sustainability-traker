@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bell, ChevronDown, LogOut, Search, Settings, UserCircle2 } from "lucide-react";
+import {
+  Bell,
+  ChevronDown,
+  LogOut,
+  Search,
+  Settings,
+  UserCircle2,
+} from "lucide-react";
 
 export default function Topbar() {
   const navigate = useNavigate();

@@ -30,7 +30,13 @@ const leaderboardData: Record<LeaderboardScope, Warrior[]> = {
     { rank: 1, name: "Alex Rivers", points: 2450, trend: 12, avatar: "AR" },
     { rank: 2, name: "EcoSam", points: 2310, trend: 5, avatar: "ES" },
     { rank: 3, name: "GreenLeaf_99", points: 2180, trend: 18, avatar: "GL" },
-    { rank: 4, name: "Jordan Sustainability", points: 2040, trend: 2, avatar: "JS" },
+    {
+      rank: 4,
+      name: "Jordan Sustainability",
+      points: 2040,
+      trend: 2,
+      avatar: "JS",
+    },
     { rank: 5, name: "NatureLover", points: 1950, trend: -1, avatar: "NL" },
   ],
   friends: [
@@ -126,25 +132,29 @@ export default function Community() {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.6fr_0.75fr]">
         <section>
-          <h1 className="text-5xl font-bold tracking-tight text-zinc-900">Top Eco-Warriors</h1>
+          <h1 className="text-5xl font-bold tracking-tight text-zinc-900">
+            Top Eco-Warriors
+          </h1>
           <p className="mt-1 text-zinc-500">
             Global rankings based on verified environmental impact scores
           </p>
 
           <div className="mt-5 flex gap-6 border-b border-zinc-200">
-            {(["global", "friends", "local"] as LeaderboardScope[]).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setScope(tab)}
-                className={`border-b-2 px-2 pb-3 text-sm font-semibold transition ${
-                  scope === tab
-                    ? "border-green-500 text-green-600"
-                    : "border-transparent text-zinc-500 hover:text-zinc-700"
-                }`}
-              >
-                {tabText[tab]}
-              </button>
-            ))}
+            {(["global", "friends", "local"] as LeaderboardScope[]).map(
+              (tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setScope(tab)}
+                  className={`border-b-2 px-2 pb-3 text-sm font-semibold transition ${
+                    scope === tab
+                      ? "border-green-500 text-green-600"
+                      : "border-transparent text-zinc-500 hover:text-zinc-700"
+                  }`}
+                >
+                  {tabText[tab]}
+                </button>
+              ),
+            )}
           </div>
 
           <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
@@ -159,7 +169,10 @@ export default function Community() {
               </thead>
               <tbody className="divide-y divide-zinc-100">
                 {rows.map((item) => (
-                  <tr key={`${item.rank}-${item.name}`} className="hover:bg-zinc-50">
+                  <tr
+                    key={`${item.rank}-${item.name}`}
+                    className="hover:bg-zinc-50"
+                  >
                     <td className="px-4 py-3">
                       <span
                         className={`inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold ${rankBadgeClass(item.rank)}`}
@@ -172,7 +185,9 @@ export default function Community() {
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-xs font-semibold text-zinc-700">
                           {item.avatar}
                         </div>
-                        <span className="font-medium text-zinc-900">{item.name}</span>
+                        <span className="font-medium text-zinc-900">
+                          {item.name}
+                        </span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -198,7 +213,10 @@ export default function Community() {
                 ))}
                 {rows.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-4 py-8 text-center text-sm text-zinc-500">
+                    <td
+                      colSpan={4}
+                      className="px-4 py-8 text-center text-sm text-zinc-500"
+                    >
                       No warriors found for this search.
                     </td>
                   </tr>
@@ -211,24 +229,33 @@ export default function Community() {
         <aside className="space-y-4">
           <div className="rounded-2xl border border-zinc-200 bg-white p-4">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-3xl font-semibold text-zinc-900">Friends Activity</h2>
+              <h2 className="text-3xl font-semibold text-zinc-900">
+                Friends Activity
+              </h2>
               <button className="text-xs font-semibold text-green-600 hover:underline">
                 View All
               </button>
             </div>
             <div className="space-y-3">
               {friendActivity.map((item) => (
-                <div key={item.id} className="flex items-center justify-between">
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex items-center gap-2">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-xs font-semibold text-zinc-700">
                       {item.avatar}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-zinc-900">{item.name}</p>
+                      <p className="text-sm font-semibold text-zinc-900">
+                        {item.name}
+                      </p>
                       <p className="text-xs text-zinc-500">{item.action}</p>
                     </div>
                   </div>
-                  <span className="text-sm font-semibold text-green-600">+{item.points}</span>
+                  <span className="text-sm font-semibold text-green-600">
+                    +{item.points}
+                  </span>
                 </div>
               ))}
             </div>
@@ -240,7 +267,8 @@ export default function Community() {
             </span>
             <h3 className="mt-2 text-3xl font-semibold">Plastic-Free Month</h3>
             <p className="mt-2 text-sm text-zinc-200">
-              Join 1,200 others in reducing single-use plastic. Big rewards for top participants!
+              Join 1,200 others in reducing single-use plastic. Big rewards for
+              top participants!
             </p>
 
             <div className="mt-4 flex -space-x-2">
@@ -265,7 +293,9 @@ export default function Community() {
           <div className="rounded-2xl border border-green-200 bg-green-50 p-4">
             <p className="text-sm font-semibold text-zinc-900">Your Rank</p>
             <p className="mt-1 text-5xl font-bold text-zinc-900">#142</p>
-            <p className="text-xs font-semibold text-zinc-500 uppercase">Top 5% globally</p>
+            <p className="text-xs font-semibold text-zinc-500 uppercase">
+              Top 5% globally
+            </p>
 
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-zinc-200">
               <div className="h-full w-4/5 bg-green-500" />

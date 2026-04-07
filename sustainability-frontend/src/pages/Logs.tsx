@@ -102,7 +102,10 @@ export default function Logs() {
     [foodBase, localSourcedMeals],
   );
 
-  const wasteValue = useMemo(() => Math.max(0.5, 4 - wasteActions.length * 0.9), [wasteActions]);
+  const wasteValue = useMemo(
+    () => Math.max(0.5, 4 - wasteActions.length * 0.9),
+    [wasteActions],
+  );
 
   const entryValue = useMemo(() => {
     if (activeCategory === "Travel") return Number(travelValue.toFixed(2));
@@ -112,7 +115,14 @@ export default function Logs() {
     }
     if (activeCategory === "Food") return Number(foodValue.toFixed(2));
     return Number(wasteValue.toFixed(2));
-  }, [activeCategory, travelValue, renewable, electricity, foodValue, wasteValue]);
+  }, [
+    activeCategory,
+    travelValue,
+    renewable,
+    electricity,
+    foodValue,
+    wasteValue,
+  ]);
 
   const estimatedImpact = useMemo(
     () => Number((entryValue * impactFactor[activeCategory]).toFixed(2)),
@@ -120,7 +130,10 @@ export default function Logs() {
   );
 
   const dailyLimit = 20;
-  const dailyUsagePct = Math.min(100, Math.round((estimatedImpact / dailyLimit) * 100));
+  const dailyUsagePct = Math.min(
+    100,
+    Math.round((estimatedImpact / dailyLimit) * 100),
+  );
   const treesEquivalent = (estimatedImpact / 5).toFixed(1);
 
   const toggleWasteAction = (action: string) => {
@@ -193,7 +206,11 @@ export default function Logs() {
             <div className="space-y-1">
               {categoryButton("Travel", <Car className="h-4 w-4" />, "Travel")}
               {categoryButton("Energy", <Zap className="h-4 w-4" />, "Energy")}
-              {categoryButton("Food", <UtensilsCrossed className="h-4 w-4" />, "Food")}
+              {categoryButton(
+                "Food",
+                <UtensilsCrossed className="h-4 w-4" />,
+                "Food",
+              )}
               {categoryButton("Waste", <Trash2 className="h-4 w-4" />, "Waste")}
             </div>
           </div>
@@ -229,13 +246,20 @@ export default function Logs() {
 
             <div className="grid gap-4 lg:grid-cols-2">
               <div>
-                <p className="mb-2 text-sm font-medium text-zinc-700">Transport Mode</p>
+                <p className="mb-2 text-sm font-medium text-zinc-700">
+                  Transport Mode
+                </p>
                 <div className="grid grid-cols-3 gap-2">
-                  {([
-                    { label: "Car", icon: <Car className="h-4 w-4" /> },
-                    { label: "Transit", icon: <Bus className="h-4 w-4" /> },
-                    { label: "Bike/Walk", icon: <Bike className="h-4 w-4" /> },
-                  ] as const).map((mode) => (
+                  {(
+                    [
+                      { label: "Car", icon: <Car className="h-4 w-4" /> },
+                      { label: "Transit", icon: <Bus className="h-4 w-4" /> },
+                      {
+                        label: "Bike/Walk",
+                        icon: <Bike className="h-4 w-4" />,
+                      },
+                    ] as const
+                  ).map((mode) => (
                     <button
                       key={mode.label}
                       onClick={() => setTransportMode(mode.label)}
@@ -245,7 +269,9 @@ export default function Logs() {
                           : "border-zinc-200 text-zinc-500 hover:bg-zinc-50"
                       }`}
                     >
-                      <div className="mb-1 flex justify-center">{mode.icon}</div>
+                      <div className="mb-1 flex justify-center">
+                        {mode.icon}
+                      </div>
                       {mode.label}
                     </button>
                   ))}
@@ -253,16 +279,22 @@ export default function Logs() {
               </div>
 
               <div>
-                <p className="mb-2 text-sm font-medium text-zinc-700">Distance Travelled (km)</p>
+                <p className="mb-2 text-sm font-medium text-zinc-700">
+                  Distance Travelled (km)
+                </p>
                 <input
                   type="number"
                   min={0}
                   value={distanceKm}
-                  onChange={(event) => setDistanceKm(Number(event.target.value) || 0)}
+                  onChange={(event) =>
+                    setDistanceKm(Number(event.target.value) || 0)
+                  }
                   className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-green-500"
                   placeholder="e.g. 15"
                 />
-                <p className="mt-2 text-xs text-zinc-400">Average commute is ~12km</p>
+                <p className="mt-2 text-xs text-zinc-400">
+                  Average commute is ~12km
+                </p>
               </div>
             </div>
           </section>
@@ -279,7 +311,9 @@ export default function Logs() {
               <div>
                 <div className="mb-2 flex items-center justify-between text-sm font-medium text-zinc-700">
                   <span>Daily Electricity Usage (kWh)</span>
-                  <span className="font-semibold text-zinc-900">{electricity.toFixed(1)}</span>
+                  <span className="font-semibold text-zinc-900">
+                    {electricity.toFixed(1)}
+                  </span>
                 </div>
                 <input
                   type="range"
@@ -287,7 +321,9 @@ export default function Logs() {
                   max={30}
                   step={0.1}
                   value={electricity}
-                  onChange={(event) => setElectricity(Number(event.target.value))}
+                  onChange={(event) =>
+                    setElectricity(Number(event.target.value))
+                  }
                   className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-200 accent-green-500"
                 />
               </div>
@@ -309,10 +345,14 @@ export default function Logs() {
               <div className="mb-3 flex items-center gap-2 text-3xl font-semibold text-zinc-900">
                 <span>🍜</span> Food Habits
               </div>
-              <label className="text-sm font-medium text-zinc-700">Primary Diet Today</label>
+              <label className="text-sm font-medium text-zinc-700">
+                Primary Diet Today
+              </label>
               <select
                 value={dietType}
-                onChange={(event) => setDietType(event.target.value as DietType)}
+                onChange={(event) =>
+                  setDietType(event.target.value as DietType)
+                }
                 className="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-green-500"
               >
                 <option>Meat-based (Omnivore)</option>
@@ -324,7 +364,9 @@ export default function Logs() {
                 <input
                   type="checkbox"
                   checked={localSourcedMeals}
-                  onChange={(event) => setLocalSourcedMeals(event.target.checked)}
+                  onChange={(event) =>
+                    setLocalSourcedMeals(event.target.checked)
+                  }
                   className="h-4 w-4 accent-green-500"
                 />
                 Locally Sourced Meals
@@ -335,26 +377,31 @@ export default function Logs() {
               <div className="mb-3 flex items-center gap-2 text-3xl font-semibold text-zinc-900">
                 <Recycle className="h-5 w-5 text-green-600" /> Waste & Plastic
               </div>
-              <p className="text-sm text-zinc-700">What did you manage today?</p>
+              <p className="text-sm text-zinc-700">
+                What did you manage today?
+              </p>
               <div className="mt-3 space-y-2">
-                {["Full Recycling", "Composting", "Zero Single-use Plastic", "Reusable Bag Used"].map(
-                  (action) => {
-                    const active = wasteActions.includes(action);
-                    return (
-                      <button
-                        key={action}
-                        onClick={() => toggleWasteAction(action)}
-                        className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
-                          active
-                            ? "border-green-500 bg-green-50 text-green-700"
-                            : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50"
-                        }`}
-                      >
-                        {action}
-                      </button>
-                    );
-                  },
-                )}
+                {[
+                  "Full Recycling",
+                  "Composting",
+                  "Zero Single-use Plastic",
+                  "Reusable Bag Used",
+                ].map((action) => {
+                  const active = wasteActions.includes(action);
+                  return (
+                    <button
+                      key={action}
+                      onClick={() => toggleWasteAction(action)}
+                      className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+                        active
+                          ? "border-green-500 bg-green-50 text-green-700"
+                          : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50"
+                      }`}
+                    >
+                      {action}
+                    </button>
+                  );
+                })}
               </div>
             </section>
           </div>
@@ -362,9 +409,12 @@ export default function Logs() {
 
         <aside className="space-y-4">
           <div className="rounded-2xl bg-linear-to-br from-zinc-900 via-zinc-900 to-green-950 p-5 text-white">
-            <p className="text-xs font-medium text-zinc-300">Estimated Impact</p>
+            <p className="text-xs font-medium text-zinc-300">
+              Estimated Impact
+            </p>
             <p className="mt-2 text-6xl font-bold">
-              {estimatedImpact.toFixed(1)} <span className="text-2xl text-green-400">kg CO2e</span>
+              {estimatedImpact.toFixed(1)}{" "}
+              <span className="text-2xl text-green-400">kg CO2e</span>
             </p>
 
             <div className="mt-5">
@@ -373,18 +423,26 @@ export default function Logs() {
                 <span>{dailyUsagePct}% reached</span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                <div className="h-full bg-green-500" style={{ width: `${dailyUsagePct}%` }} />
+                <div
+                  className="h-full bg-green-500"
+                  style={{ width: `${dailyUsagePct}%` }}
+                />
               </div>
             </div>
 
             <div className="mt-5 space-y-3 border-t border-white/10 pt-4 text-sm text-zinc-200">
               <p className="flex items-start gap-2">
                 <Trees className="mt-0.5 h-4 w-4 text-green-400" />
-                Equivalent to <span className="font-semibold text-white">{treesEquivalent} trees</span> planted today.
+                Equivalent to{" "}
+                <span className="font-semibold text-white">
+                  {treesEquivalent} trees
+                </span>{" "}
+                planted today.
               </p>
               <p className="flex items-start gap-2">
                 <TrendingDown className="mt-0.5 h-4 w-4 text-green-400" />
-                <span className="font-semibold text-white">12% lower</span> than your usual Thursday.
+                <span className="font-semibold text-white">12% lower</span> than
+                your usual Thursday.
               </p>
             </div>
           </div>
@@ -394,7 +452,8 @@ export default function Logs() {
             disabled={loading}
             className="flex w-full items-center justify-center gap-2 rounded-2xl bg-green-500 py-3 text-lg font-semibold text-white transition hover:bg-green-600 disabled:opacity-60"
           >
-            <ShieldCheck className="h-5 w-5" /> {loading ? "Saving..." : "Save Entry"}
+            <ShieldCheck className="h-5 w-5" />{" "}
+            {loading ? "Saving..." : "Save Entry"}
           </button>
 
           <button
@@ -413,8 +472,13 @@ export default function Logs() {
                 <p className="text-sm text-zinc-500">No recent entries yet.</p>
               ) : (
                 recentLogs.map((log) => (
-                  <div key={log.id} className="flex items-center justify-between text-sm">
-                    <span className="text-zinc-500">{formatShortDate(log.date)}</span>
+                  <div
+                    key={log.id}
+                    className="flex items-center justify-between text-sm"
+                  >
+                    <span className="text-zinc-500">
+                      {formatShortDate(log.date)}
+                    </span>
                     <span className="font-semibold text-zinc-800">
                       {(log.co2e_impact || log.value).toFixed(1)} kg
                     </span>
@@ -441,7 +505,9 @@ export default function Logs() {
           )}
 
           <div className="rounded-xl border-t border-zinc-200 pt-4 text-[11px] text-zinc-400">
-            <p className="mb-2">Your data is encrypted and used only for calculation.</p>
+            <p className="mb-2">
+              Your data is encrypted and used only for calculation.
+            </p>
             <div className="flex items-center gap-4 uppercase tracking-wider">
               <span>API Docs</span>
               <span>Privacy Policy</span>

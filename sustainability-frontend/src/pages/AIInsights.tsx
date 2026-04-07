@@ -1,11 +1,5 @@
 import { useMemo, useState } from "react";
-import {
-  RotateCcw,
-  Bolt,
-  MessageSquareText,
-  Send,
-  Check,
-} from "lucide-react";
+import { RotateCcw, Bolt, MessageSquareText, Send, Check } from "lucide-react";
 import { api } from "../services/api";
 
 type Recommendation = {
@@ -68,7 +62,11 @@ const initialPlan: PlanStep[] = [
     window: "Days 1-2 • Setup & Transit",
     title: "Audit commuting habits",
     tasks: [
-      { id: 1, text: "Download local transit app and map out office route.", done: true },
+      {
+        id: 1,
+        text: "Download local transit app and map out office route.",
+        done: true,
+      },
       { id: 2, text: "Commit to one 'car-free' commute day.", done: false },
     ],
   },
@@ -77,8 +75,16 @@ const initialPlan: PlanStep[] = [
     window: "Days 3-5 • Energy Efficiency",
     title: "Smart device scheduling",
     tasks: [
-      { id: 1, text: "Configure smart thermostat to eco-mode during sleep hours.", done: false },
-      { id: 2, text: "Unplug 'vampire' appliances in the kitchen.", done: false },
+      {
+        id: 1,
+        text: "Configure smart thermostat to eco-mode during sleep hours.",
+        done: false,
+      },
+      {
+        id: 2,
+        text: "Unplug 'vampire' appliances in the kitchen.",
+        done: false,
+      },
     ],
   },
   {
@@ -87,7 +93,11 @@ const initialPlan: PlanStep[] = [
     title: "Zero-waste weekend",
     tasks: [
       { id: 1, text: "Try a meat-free recipe for Sunday dinner.", done: false },
-      { id: 2, text: "Check local recycling guidelines for electronics.", done: false },
+      {
+        id: 2,
+        text: "Check local recycling guidelines for electronics.",
+        done: false,
+      },
     ],
   },
 ];
@@ -188,7 +198,9 @@ export default function AIInsights() {
         },
       ]);
     } catch {
-      setLiveStatus("Unable to refresh from server • Using latest local trends");
+      setLiveStatus(
+        "Unable to refresh from server • Using latest local trends",
+      );
     } finally {
       setLoadingRegenerate(false);
     }
@@ -262,11 +274,18 @@ export default function AIInsights() {
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-semibold text-zinc-900">{item.title}</h3>
+                <h3 className="text-2xl font-semibold text-zinc-900">
+                  {item.title}
+                </h3>
                 <p className="mt-2 text-xs text-zinc-500">
-                  {item.subtitle}: <span className="font-semibold text-green-500">{item.reduction}</span>
+                  {item.subtitle}:{" "}
+                  <span className="font-semibold text-green-500">
+                    {item.reduction}
+                  </span>
                 </p>
-                <p className="text-xs text-zinc-500">Difficulty: {item.difficulty}</p>
+                <p className="text-xs text-zinc-500">
+                  Difficulty: {item.difficulty}
+                </p>
 
                 <button
                   onClick={() => adoptRecommendation(item.id)}
@@ -284,7 +303,9 @@ export default function AIInsights() {
       <section className="grid grid-cols-1 gap-4 xl:grid-cols-[1.4fr_1fr]">
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-4xl font-semibold text-zinc-900">Action Plan: Next 7 Days</h2>
+            <h2 className="text-4xl font-semibold text-zinc-900">
+              Action Plan: Next 7 Days
+            </h2>
             <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
               Generated Today
             </span>
@@ -298,17 +319,28 @@ export default function AIInsights() {
                   <p className="text-[10px] font-black uppercase tracking-[0.12em] text-green-500">
                     {step.window}
                   </p>
-                  <h3 className="mt-1 text-2xl font-semibold text-zinc-900">{step.title}</h3>
+                  <h3 className="mt-1 text-2xl font-semibold text-zinc-900">
+                    {step.title}
+                  </h3>
                   <div className="mt-3 space-y-2">
                     {step.tasks.map((task) => (
-                      <label key={task.id} className="flex items-start gap-2 text-sm text-zinc-600">
+                      <label
+                        key={task.id}
+                        className="flex items-start gap-2 text-sm text-zinc-600"
+                      >
                         <input
                           type="checkbox"
                           checked={task.done}
                           onChange={() => toggleTask(step.id, task.id)}
                           className="mt-0.5 h-4 w-4 rounded border-zinc-300 accent-green-500"
                         />
-                        <span className={task.done ? "line-through text-zinc-400" : ""}>{task.text}</span>
+                        <span
+                          className={
+                            task.done ? "line-through text-zinc-400" : ""
+                          }
+                        >
+                          {task.text}
+                        </span>
                       </label>
                     ))}
                   </div>
@@ -324,7 +356,8 @@ export default function AIInsights() {
 
         <div className="rounded-2xl border border-zinc-200 bg-white p-4">
           <h2 className="mb-3 flex items-center gap-2 text-3xl font-semibold text-zinc-900">
-            <MessageSquareText className="h-5 w-5 text-green-500" /> Ask AI Expert
+            <MessageSquareText className="h-5 w-5 text-green-500" /> Ask AI
+            Expert
           </h2>
 
           <div className="h-108 space-y-3 overflow-y-auto rounded-xl bg-zinc-50 p-3">
@@ -340,10 +373,13 @@ export default function AIInsights() {
                 <p>{item.text}</p>
                 <p
                   className={`mt-1 text-[10px] ${
-                    item.role === "assistant" ? "text-zinc-400" : "text-green-100"
+                    item.role === "assistant"
+                      ? "text-zinc-400"
+                      : "text-green-100"
                   }`}
                 >
-                  {item.role === "assistant" ? "AI Assistant" : "You"} • {item.time}
+                  {item.role === "assistant" ? "AI Assistant" : "You"} •{" "}
+                  {item.time}
                 </p>
               </div>
             ))}

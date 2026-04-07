@@ -21,7 +21,9 @@ export default function CategoryDonut({ data }: Props) {
           <p className="text-2xl font-semibold text-zinc-900 transition-colors">
             Footprint by Category
           </p>
-          <p className="text-sm text-zinc-500 transition-colors">Distribution of impact</p>
+          <p className="text-sm text-zinc-500 transition-colors">
+            Distribution of impact
+          </p>
         </div>
         <p className="text-lg text-slate-400 transition-colors">◔</p>
       </div>
@@ -33,7 +35,9 @@ export default function CategoryDonut({ data }: Props) {
               <p className="text-[10px] font-semibold tracking-[0.12em] text-slate-400 uppercase">
                 Total
               </p>
-              <p className="text-3xl font-bold text-zinc-900 transition-colors">100%</p>
+              <p className="text-3xl font-bold text-zinc-900 transition-colors">
+                100%
+              </p>
             </div>
           </div>
           <ResponsiveContainer width="100%" height="100%">

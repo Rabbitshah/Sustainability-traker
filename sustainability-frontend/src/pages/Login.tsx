@@ -151,6 +151,6 @@ export default function Login() {
           <CircleHelp size={14} /> Helping 12,000+ people track their footprint
         </p>
       </footer>
-      </div>
+    </div>
   );
 }

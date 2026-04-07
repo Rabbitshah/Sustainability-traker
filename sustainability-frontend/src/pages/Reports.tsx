@@ -94,7 +94,9 @@ export default function Reports() {
   }, [loadData]);
 
   const filteredLogs = useMemo(() => {
-    const allowed = new Set(selectedCategories.map((item) => item.toLowerCase()));
+    const allowed = new Set(
+      selectedCategories.map((item) => item.toLowerCase()),
+    );
     return logs.filter((item) => allowed.has(item.category.toLowerCase()));
   }, [logs, selectedCategories]);
 
@@ -137,8 +139,9 @@ export default function Reports() {
         : Math.min(
             100,
             Math.round(
-              (filteredLogs.filter((item) => item.category.toLowerCase() === "waste")
-                .length /
+              (filteredLogs.filter(
+                (item) => item.category.toLowerCase() === "waste",
+              ).length /
                 filteredLogs.length) *
                 100,
             ),
@@ -231,8 +234,13 @@ export default function Reports() {
         )
         .join("\n");
 
-      const blob = new Blob([header + rows], { type: "text/csv;charset=utf-8" });
-      downloadBlob(blob, `sustainability-report-${new Date().toISOString().split("T")[0]}.csv`);
+      const blob = new Blob([header + rows], {
+        type: "text/csv;charset=utf-8",
+      });
+      downloadBlob(
+        blob,
+        `sustainability-report-${new Date().toISOString().split("T")[0]}.csv`,
+      );
     } finally {
       setIsExportingCsv(false);
     }
@@ -257,8 +265,13 @@ export default function Reports() {
         `Reporting Window: ${dateWindow}`,
       ].join("\n");
 
-      const blob = new Blob([fallbackContent], { type: "text/plain;charset=utf-8" });
-      downloadBlob(blob, `sustainability-report-${new Date().toISOString().split("T")[0]}.txt`);
+      const blob = new Blob([fallbackContent], {
+        type: "text/plain;charset=utf-8",
+      });
+      downloadBlob(
+        blob,
+        `sustainability-report-${new Date().toISOString().split("T")[0]}.txt`,
+      );
     } finally {
       setIsExportingPdf(false);
     }
@@ -269,7 +282,9 @@ export default function Reports() {
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[260px_1fr]">
         <aside className="space-y-4">
           <div className="rounded-2xl border border-zinc-200 bg-white p-4">
-            <h3 className="text-lg font-semibold text-zinc-900">Report Settings</h3>
+            <h3 className="text-lg font-semibold text-zinc-900">
+              Report Settings
+            </h3>
             <p className="text-xs text-zinc-500">Configure data extraction</p>
 
             <div className="mt-4 space-y-1 text-sm">
@@ -288,7 +303,11 @@ export default function Reports() {
                       : "text-zinc-600 hover:bg-zinc-100"
                   }`}
                 >
-                  {mode === item.key ? <Check size={14} /> : <Activity size={14} />}
+                  {mode === item.key ? (
+                    <Check size={14} />
+                  ) : (
+                    <Activity size={14} />
+                  )}
                   {item.label}
                 </button>
               ))}
@@ -367,14 +386,23 @@ export default function Reports() {
             <div className="space-y-5 p-5">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <h2 className="text-4xl font-bold text-green-500">Impact Summary</h2>
-                  <p className="mt-1 text-sm text-zinc-700">Prepared for: Sustainability Officer</p>
-                  <p className="text-sm text-zinc-500">Reporting Period: {dateWindow}</p>
+                  <h2 className="text-4xl font-bold text-green-500">
+                    Impact Summary
+                  </h2>
+                  <p className="mt-1 text-sm text-zinc-700">
+                    Prepared for: Sustainability Officer
+                  </p>
+                  <p className="text-sm text-zinc-500">
+                    Reporting Period: {dateWindow}
+                  </p>
                 </div>
                 <div className="text-right">
                   <p className="text-5xl font-bold text-zinc-900">
                     {totalCarbonTons.toFixed(1)}
-                    <span className="text-lg font-medium text-zinc-500"> tonsCO₂e</span>
+                    <span className="text-lg font-medium text-zinc-500">
+                      {" "}
+                      tonsCO₂e
+                    </span>
                   </p>
                   <p className="inline-block rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-700">
                     {trendDeltaText}
@@ -405,7 +433,9 @@ export default function Reports() {
                   <div className="mb-2 inline-flex rounded-lg bg-amber-100 p-2 text-amber-600">
                     <Trash2 size={14} />
                   </div>
-                  <p className="text-xs text-zinc-500">Diverted from Landfill</p>
+                  <p className="text-xs text-zinc-500">
+                    Diverted from Landfill
+                  </p>
                   <p className="text-4xl font-bold text-zinc-900">
                     {summary.wasteDiversionRate}%
                   </p>
@@ -414,7 +444,9 @@ export default function Reports() {
 
               <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.5fr_0.9fr]">
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-zinc-800">Emissions Trend (Last 30 Days)</p>
+                  <p className="mb-2 text-sm font-semibold text-zinc-800">
+                    Emissions Trend (Last 30 Days)
+                  </p>
                   <div className="h-48 rounded-xl bg-zinc-50 p-3">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={trendData}>
@@ -425,8 +457,14 @@ export default function Reports() {
                             backgroundColor: "#fff",
                           }}
                           formatter={(value) => {
-                            const numericValue = typeof value === "number" ? value : Number(value ?? 0);
-                            return [`${numericValue.toFixed(2)} kg CO2e`, "Impact"];
+                            const numericValue =
+                              typeof value === "number"
+                                ? value
+                                : Number(value ?? 0);
+                            return [
+                              `${numericValue.toFixed(2)} kg CO2e`,
+                              "Impact",
+                            ];
                           }}
                         />
                         <Line
@@ -442,12 +480,16 @@ export default function Reports() {
                 </div>
 
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-zinc-800">Category Split</p>
+                  <p className="mb-2 text-sm font-semibold text-zinc-800">
+                    Category Split
+                  </p>
                   <div className="flex h-48 items-center justify-center rounded-xl bg-zinc-50">
                     <div className="relative h-full w-full">
                       <div className="absolute inset-0 z-10 flex items-center justify-center">
                         <div className="text-center">
-                          <p className="text-3xl font-bold text-zinc-900">{dominantPercent}%</p>
+                          <p className="text-3xl font-bold text-zinc-900">
+                            {dominantPercent}%
+                          </p>
                           <p className="text-xs text-zinc-500">
                             {dominantCategory?.category ?? "Energy"}
                           </p>
@@ -466,7 +508,9 @@ export default function Reports() {
                             {summary.split.map((_, index) => (
                               <Cell
                                 key={`slice-${index}`}
-                                fill={IMPACT_COLORS[index % IMPACT_COLORS.length]}
+                                fill={
+                                  IMPACT_COLORS[index % IMPACT_COLORS.length]
+                                }
                               />
                             ))}
                           </Pie>
@@ -478,20 +522,27 @@ export default function Reports() {
               </div>
 
               <div>
-                <p className="mb-2 text-sm font-semibold text-zinc-800">Recent Activity Logs</p>
+                <p className="mb-2 text-sm font-semibold text-zinc-800">
+                  Recent Activity Logs
+                </p>
                 <table className="w-full text-left">
                   <thead className="border-b border-zinc-100 text-xs text-zinc-500">
                     <tr>
                       <th className="py-2 font-medium">Date</th>
                       <th className="py-2 font-medium">Action/Activity</th>
                       <th className="py-2 font-medium">Category</th>
-                      <th className="py-2 text-right font-medium">Impact Value</th>
+                      <th className="py-2 text-right font-medium">
+                        Impact Value
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-100">
                     {activityRows.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="py-4 text-center text-sm text-zinc-500">
+                        <td
+                          colSpan={4}
+                          className="py-4 text-center text-sm text-zinc-500"
+                        >
                           No records available for the current filters.
                         </td>
                       </tr>
@@ -500,12 +551,17 @@ export default function Reports() {
                         const key = item.category.toLowerCase();
                         return (
                           <tr key={item.id}>
-                            <td className="py-3 text-sm text-zinc-700">{item.dateLabel}</td>
-                            <td className="py-3 text-sm text-zinc-900">{item.activityLabel}</td>
+                            <td className="py-3 text-sm text-zinc-700">
+                              {item.dateLabel}
+                            </td>
+                            <td className="py-3 text-sm text-zinc-900">
+                              {item.activityLabel}
+                            </td>
                             <td className="py-3">
                               <span
                                 className={`rounded px-2 py-1 text-[10px] font-semibold uppercase ${
-                                  categoryBadgeClass[key] ?? "bg-zinc-100 text-zinc-700"
+                                  categoryBadgeClass[key] ??
+                                  "bg-zinc-100 text-zinc-700"
                                 }`}
                               >
                                 {item.category}
@@ -526,7 +582,8 @@ export default function Reports() {
             <div className="flex flex-wrap items-center justify-between border-t border-zinc-100 px-5 py-3 text-[10px] font-semibold tracking-[0.14em] text-zinc-500 uppercase">
               <p>© 2024 Sustainability Tracker Dashboard</p>
               <p>
-                Report generated on: {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}
+                Report generated on: {new Date().toLocaleDateString()}{" "}
+                {new Date().toLocaleTimeString()}
               </p>
             </div>
           </div>

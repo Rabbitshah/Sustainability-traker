@@ -108,11 +108,15 @@ export default function Notifications() {
   }, [activeTab, notifications]);
 
   const markAllRead = () => {
-    setNotifications((prev) => prev.map((item) => ({ ...item, unread: false })));
+    setNotifications((prev) =>
+      prev.map((item) => ({ ...item, unread: false })),
+    );
   };
 
   const todayItems = filtered.filter((item) => item.section === "today");
-  const yesterdayItems = filtered.filter((item) => item.section === "yesterday");
+  const yesterdayItems = filtered.filter(
+    (item) => item.section === "yesterday",
+  );
 
   return (
     <div className="min-h-screen bg-zinc-50 p-6 lg:p-8">
@@ -120,8 +124,12 @@ export default function Notifications() {
         <section>
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h1 className="text-5xl font-bold tracking-tight text-zinc-900">Updates</h1>
-              <p className="text-zinc-500">Track your impact and stay on top of your green journey.</p>
+              <h1 className="text-5xl font-bold tracking-tight text-zinc-900">
+                Updates
+              </h1>
+              <p className="text-zinc-500">
+                Track your impact and stay on top of your green journey.
+              </p>
             </div>
             <button
               onClick={markAllRead}
@@ -132,12 +140,14 @@ export default function Notifications() {
           </div>
 
           <div className="mb-5 flex gap-6 border-b border-zinc-200">
-            {([
-              ["all", "All Notifications"],
-              ["achievements", "Achievements"],
-              ["ai", "AI Reminders"],
-              ["tips", "Tips"],
-            ] as [NotificationTab, string][]).map(([id, label]) => (
+            {(
+              [
+                ["all", "All Notifications"],
+                ["achievements", "Achievements"],
+                ["ai", "AI Reminders"],
+                ["tips", "Tips"],
+              ] as [NotificationTab, string][]
+            ).map(([id, label]) => (
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
@@ -153,14 +163,23 @@ export default function Notifications() {
           </div>
 
           <div className="space-y-4">
-            <p className="text-xs font-semibold tracking-[0.14em] text-zinc-500 uppercase">Today</p>
+            <p className="text-xs font-semibold tracking-[0.14em] text-zinc-500 uppercase">
+              Today
+            </p>
             {todayItems.map((item) => (
-              <article key={item.id} className="rounded-2xl border border-zinc-200 bg-white p-4">
+              <article
+                key={item.id}
+                className="rounded-2xl border border-zinc-200 bg-white p-4"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
-                    <div className={`rounded-full p-2 ${iconClass(item.icon)}`}>{iconNode(item.icon)}</div>
+                    <div className={`rounded-full p-2 ${iconClass(item.icon)}`}>
+                      {iconNode(item.icon)}
+                    </div>
                     <div>
-                      <p className="text-2xl font-semibold text-zinc-900">{item.title}</p>
+                      <p className="text-2xl font-semibold text-zinc-900">
+                        {item.title}
+                      </p>
                       <p className="mt-1 text-zinc-600">{item.message}</p>
 
                       {item.actions && (
@@ -182,26 +201,39 @@ export default function Notifications() {
 
                   <div className="text-right">
                     <p className="text-xs text-zinc-400">{item.time}</p>
-                    {item.unread && <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-green-500" />}
+                    {item.unread && (
+                      <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-green-500" />
+                    )}
                   </div>
                 </div>
               </article>
             ))}
 
-            <p className="pt-2 text-xs font-semibold tracking-[0.14em] text-zinc-500 uppercase">Yesterday</p>
+            <p className="pt-2 text-xs font-semibold tracking-[0.14em] text-zinc-500 uppercase">
+              Yesterday
+            </p>
             {yesterdayItems.map((item) => (
-              <article key={item.id} className="rounded-2xl border border-zinc-200 bg-white p-4">
+              <article
+                key={item.id}
+                className="rounded-2xl border border-zinc-200 bg-white p-4"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
-                    <div className={`rounded-full p-2 ${iconClass(item.icon)}`}>{iconNode(item.icon)}</div>
+                    <div className={`rounded-full p-2 ${iconClass(item.icon)}`}>
+                      {iconNode(item.icon)}
+                    </div>
                     <div>
-                      <p className="text-2xl font-semibold text-zinc-900">{item.title}</p>
+                      <p className="text-2xl font-semibold text-zinc-900">
+                        {item.title}
+                      </p>
                       <p className="mt-1 text-zinc-600">{item.message}</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-400">{item.time}</p>
-                    {item.unread && <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-green-500" />}
+                    {item.unread && (
+                      <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-green-500" />
+                    )}
                   </div>
                 </div>
               </article>
@@ -217,7 +249,9 @@ export default function Notifications() {
 
         <aside className="space-y-4">
           <div className="rounded-2xl border border-green-200 bg-green-50 p-4">
-            <h2 className="text-sm font-black tracking-[0.14em] text-green-600 uppercase">Impact Summary</h2>
+            <h2 className="text-sm font-black tracking-[0.14em] text-green-600 uppercase">
+              Impact Summary
+            </h2>
             <div className="mt-3 space-y-2 text-sm">
               <div className="flex items-center justify-between text-zinc-700">
                 <span>CO2 Saved</span>
@@ -235,22 +269,32 @@ export default function Notifications() {
           </div>
 
           <div className="rounded-2xl border border-zinc-200 bg-white p-4">
-            <h2 className="text-xs font-semibold tracking-[0.14em] text-zinc-500 uppercase">Upcoming Reminders</h2>
+            <h2 className="text-xs font-semibold tracking-[0.14em] text-zinc-500 uppercase">
+              Upcoming Reminders
+            </h2>
             <div className="mt-3 space-y-2">
               <div className="rounded-xl bg-zinc-100 p-3">
-                <p className="text-sm font-semibold text-zinc-900">Empty Compost Bin</p>
+                <p className="text-sm font-semibold text-zinc-900">
+                  Empty Compost Bin
+                </p>
                 <p className="text-xs text-zinc-500">Today • 6:00 PM</p>
               </div>
               <div className="rounded-xl bg-zinc-100 p-3">
-                <p className="text-sm font-semibold text-zinc-900">Water Office Plants</p>
+                <p className="text-sm font-semibold text-zinc-900">
+                  Water Office Plants
+                </p>
                 <p className="text-xs text-zinc-500">Tomorrow • 9:00 AM</p>
               </div>
             </div>
           </div>
 
           <div className="rounded-2xl bg-green-500 p-4 text-zinc-900">
-            <p className="text-xs font-black tracking-[0.14em] uppercase">Weekly Challenge</p>
-            <h3 className="mt-1 text-4xl font-bold">Meatless Monday Marathon</h3>
+            <p className="text-xs font-black tracking-[0.14em] uppercase">
+              Weekly Challenge
+            </p>
+            <h3 className="mt-1 text-4xl font-bold">
+              Meatless Monday Marathon
+            </h3>
             <div className="mt-3 flex items-center justify-between text-sm font-semibold">
               <span>+24 participants</span>
               <span>2 days left</span>
