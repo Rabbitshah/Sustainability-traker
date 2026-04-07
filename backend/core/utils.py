@@ -3,25 +3,29 @@ from django.db.models import Sum
 from .models import EmissionRecord
 from django.http import FileResponse
 
-def generate_emission_insight():
+def generate_emission_insight(company=None):
     today = date.today()
+
+    base_queryset = EmissionRecord.objects.all()
+    if company is not None:
+        base_queryset = base_queryset.filter(company=company)
     
     # 1. Current Month Data
-    this_month_qs = EmissionRecord.objects.filter(
+    this_month_qs = base_queryset.filter(
         date__year=today.year, 
         date__month=today.month
     )
-    this_month_total = this_month_qs.aggregate(Sum('value'))['value__sum'] or 0
+    this_month_total = this_month_qs.aggregate(Sum('co2e_impact'))['co2e_impact__sum'] or 0
     days_passed_this_month = today.day
     avg_daily_this_month = this_month_total / days_passed_this_month
 
     # 2. Last Month Data
     last_month_end = today.replace(day=1) - timedelta(days=1)
-    last_month_qs = EmissionRecord.objects.filter(
+    last_month_qs = base_queryset.filter(
         date__year=last_month_end.year, 
         date__month=last_month_end.month
     )
-    last_month_total = last_month_qs.aggregate(Sum('value'))['value__sum'] or 0
+    last_month_total = last_month_qs.aggregate(Sum('co2e_impact'))['co2e_impact__sum'] or 0
     
     # Use 30 as a standard divisor for last month
     avg_daily_last_month = last_month_total / 30 
