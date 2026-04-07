@@ -35,8 +35,12 @@ export default function Sidebar() {
       >
         <div className="h-10 w-10 rounded-xl bg-green-500 shadow-lg shadow-green-500/20" />
         <div>
-          <p className="text-lg leading-5 font-bold text-zinc-900 transition-colors">EcoTracker</p>
-          <p className="text-xs text-gray-500 transition-colors">SaaS Dashboard</p>
+          <p className="text-lg leading-5 font-bold text-zinc-900 transition-colors">
+            EcoTracker
+          </p>
+          <p className="text-xs text-gray-500 transition-colors">
+            SaaS Dashboard
+          </p>
         </div>
       </button>
 

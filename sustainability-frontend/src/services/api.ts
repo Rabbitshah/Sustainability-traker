@@ -15,9 +15,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config as (typeof error.config & {
+    const originalRequest = error.config as typeof error.config & {
       _retry?: boolean;
-    });
+    };
 
     const status = error.response?.status;
     if (status !== 401 || originalRequest?._retry) {
@@ -34,9 +34,12 @@ api.interceptors.response.use(
     originalRequest._retry = true;
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/auth/refresh/", {
-        refresh: refreshToken,
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/auth/refresh/",
+        {
+          refresh: refreshToken,
+        },
+      );
 
       const nextAccessToken = response.data?.access;
       if (!nextAccessToken) {

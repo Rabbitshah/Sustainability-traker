@@ -89,8 +89,12 @@ const getRecordImpact = (record: EmissionRecord) =>
 export default function Dashboard() {
   const [allLogs, setAllLogs] = useState<EmissionRecord[]>([]);
   const [totalEmissionsKpi, setTotalEmissionsKpi] = useState(0);
-  const [categoryDataKpi, setCategoryDataKpi] = useState<CategoryKpiResponse[]>([]);
-  const [monthlyDataKpi, setMonthlyDataKpi] = useState<MonthlyKpiResponse[]>([]);
+  const [categoryDataKpi, setCategoryDataKpi] = useState<CategoryKpiResponse[]>(
+    [],
+  );
+  const [monthlyDataKpi, setMonthlyDataKpi] = useState<MonthlyKpiResponse[]>(
+    [],
+  );
 
   const [loading, setLoading] = useState(true);
   const [aiAdvice, setAiAdvice] = useState<AdviceResponse | null>(null);
@@ -112,7 +116,9 @@ export default function Dashboard() {
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
         ),
       );
-      setTotalEmissionsKpi((totalRes.data as TotalKpiResponse).total_emissions ?? 0);
+      setTotalEmissionsKpi(
+        (totalRes.data as TotalKpiResponse).total_emissions ?? 0,
+      );
       setCategoryDataKpi((categoryRes.data as CategoryKpiResponse[]) ?? []);
       setMonthlyDataKpi((monthlyRes.data as MonthlyKpiResponse[]) ?? []);
     } catch (err) {
@@ -156,7 +162,10 @@ export default function Dashboard() {
 
   const recentLogs = useMemo(() => allLogs.slice(0, 5), [allLogs]);
 
-  const totalEmissions = useMemo(() => Number(totalEmissionsKpi ?? 0), [totalEmissionsKpi]);
+  const totalEmissions = useMemo(
+    () => Number(totalEmissionsKpi ?? 0),
+    [totalEmissionsKpi],
+  );
 
   const categoryData = useMemo(
     () =>
@@ -389,8 +398,12 @@ export default function Dashboard() {
               <Lightbulb size={14} />
             </div>
             <div>
-              <p className="font-semibold text-zinc-900 transition-colors">AI Personal Insight</p>
-              <p className="text-sm text-zinc-700 transition-colors">{recommendationMessage}</p>
+              <p className="font-semibold text-zinc-900 transition-colors">
+                AI Personal Insight
+              </p>
+              <p className="text-sm text-zinc-700 transition-colors">
+                {recommendationMessage}
+              </p>
             </div>
           </div>
 
@@ -406,7 +419,9 @@ export default function Dashboard() {
 
       <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-colors">
         <div className="flex items-center justify-between border-b border-zinc-100 px-5 py-4 transition-colors">
-          <p className="font-semibold text-zinc-900 transition-colors">Recent Activity</p>
+          <p className="font-semibold text-zinc-900 transition-colors">
+            Recent Activity
+          </p>
           <Link
             to="/logs"
             className="text-xs font-semibold text-green-600 uppercase hover:text-green-700"
@@ -445,7 +460,10 @@ export default function Dashboard() {
                 const isReduction = normalizedCategory !== "energy";
 
                 return (
-                  <tr key={log.id} className="transition-colors hover:bg-zinc-50">
+                  <tr
+                    key={log.id}
+                    className="transition-colors hover:bg-zinc-50"
+                  >
                     <td className="px-5 py-3 text-sm text-zinc-700 transition-colors">
                       {formatRelativeDate(log.date)}
                     </td>

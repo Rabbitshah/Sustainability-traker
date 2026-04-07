@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Leaf, X, Circle, Footprints, Recycle, Zap, ArrowRight } from "lucide-react";
+import {
+  Leaf,
+  X,
+  Circle,
+  Footprints,
+  Recycle,
+  Zap,
+  ArrowRight,
+} from "lucide-react";
 
 type GoalOption = "co2" | "recycling" | "energy";
 
@@ -51,7 +59,9 @@ export default function SetGoals() {
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-500 text-white">
             <Leaf size={14} />
           </div>
-          <span className="text-2xl font-semibold text-zinc-900">Sustainability Tracker</span>
+          <span className="text-2xl font-semibold text-zinc-900">
+            Sustainability Tracker
+          </span>
         </div>
 
         <Link
@@ -70,8 +80,12 @@ export default function SetGoals() {
               Step 1 of 3
             </p>
             <div className="mt-1 flex items-center justify-between">
-              <p className="text-3xl font-semibold text-zinc-900">Setting up your profile</p>
-              <p className="text-sm font-semibold text-green-600">33% Complete</p>
+              <p className="text-3xl font-semibold text-zinc-900">
+                Setting up your profile
+              </p>
+              <p className="text-sm font-semibold text-green-600">
+                33% Complete
+              </p>
             </div>
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-zinc-200">
               <div className="h-full w-1/3 bg-green-500" />
@@ -80,9 +94,12 @@ export default function SetGoals() {
 
           <div className="space-y-5 px-6 py-6">
             <div>
-              <h1 className="text-5xl font-bold tracking-tight text-zinc-900">What is your primary goal?</h1>
+              <h1 className="text-5xl font-bold tracking-tight text-zinc-900">
+                What is your primary goal?
+              </h1>
               <p className="mt-2 text-zinc-500">
-                Select the area you want to focus on first. We&apos;ll tailor your dashboard and recommendations based on your choice.
+                Select the area you want to focus on first. We&apos;ll tailor
+                your dashboard and recommendations based on your choice.
               </p>
             </div>
 
@@ -107,10 +124,18 @@ export default function SetGoals() {
                       </div>
                       <div className="flex-1">
                         <p className="flex items-center gap-2 text-2xl font-semibold text-zinc-900">
-                          <span className={active ? "text-green-600" : "text-zinc-500"}>{item.icon}</span>
+                          <span
+                            className={
+                              active ? "text-green-600" : "text-zinc-500"
+                            }
+                          >
+                            {item.icon}
+                          </span>
                           {item.title}
                         </p>
-                        <p className="mt-1 text-sm text-zinc-600">{item.description}</p>
+                        <p className="mt-1 text-sm text-zinc-600">
+                          {item.description}
+                        </p>
                       </div>
                     </div>
                   </button>

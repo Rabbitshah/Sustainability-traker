@@ -75,10 +75,34 @@ const initialGoals: GoalItem[] = [
 ];
 
 const badges: BadgeItem[] = [
-  { id: 1, icon: "leaf", label: "Eco Starter", date: "EARNED NOV 12", unlocked: true },
-  { id: 2, icon: "zap", label: "Watt-Saver", date: "EARNED DEC 04", unlocked: true },
-  { id: 3, icon: "flame", label: "7-Day Streak", date: "EARNED DEC 15", unlocked: true },
-  { id: 4, icon: "lock", label: "Solar Pioneer", date: "LOCKED", unlocked: false },
+  {
+    id: 1,
+    icon: "leaf",
+    label: "Eco Starter",
+    date: "EARNED NOV 12",
+    unlocked: true,
+  },
+  {
+    id: 2,
+    icon: "zap",
+    label: "Watt-Saver",
+    date: "EARNED DEC 04",
+    unlocked: true,
+  },
+  {
+    id: 3,
+    icon: "flame",
+    label: "7-Day Streak",
+    date: "EARNED DEC 15",
+    unlocked: true,
+  },
+  {
+    id: 4,
+    icon: "lock",
+    label: "Solar Pioneer",
+    date: "LOCKED",
+    unlocked: false,
+  },
   { id: 5, icon: "lock", label: "Waste Zero", date: "LOCKED", unlocked: false },
   { id: 6, icon: "lock", label: "Dirt Hero", date: "LOCKED", unlocked: false },
 ];
@@ -213,8 +237,12 @@ export default function Goals() {
                 </div>
 
                 <div>
-                  <h3 className="text-3xl font-semibold text-zinc-900">{goal.title}</h3>
-                  <p className="mt-1 text-sm text-zinc-500">{goal.description}</p>
+                  <h3 className="text-3xl font-semibold text-zinc-900">
+                    {goal.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-zinc-500">
+                    {goal.description}
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -245,19 +273,21 @@ export default function Goals() {
             </h2>
 
             <div className="flex rounded-lg bg-zinc-200 p-1">
-              {(["all", "unlocked", "locked"] as BadgeFilter[]).map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setBadgeFilter(filter)}
-                  className={`rounded px-3 py-1 text-[10px] font-black uppercase transition ${
-                    badgeFilter === filter
-                      ? "bg-black text-white"
-                      : "text-zinc-500 hover:bg-zinc-300"
-                  }`}
-                >
-                  {filter}
-                </button>
-              ))}
+              {(["all", "unlocked", "locked"] as BadgeFilter[]).map(
+                (filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => setBadgeFilter(filter)}
+                    className={`rounded px-3 py-1 text-[10px] font-black uppercase transition ${
+                      badgeFilter === filter
+                        ? "bg-black text-white"
+                        : "text-zinc-500 hover:bg-zinc-300"
+                    }`}
+                  >
+                    {filter}
+                  </button>
+                ),
+              )}
             </div>
           </div>
 
@@ -269,13 +299,17 @@ export default function Goals() {
               >
                 <div
                   className={`flex h-20 w-20 items-center justify-center rounded-full border-4 ${
-                    badge.unlocked ? "border-green-500 bg-white" : "border-zinc-200 bg-zinc-50"
+                    badge.unlocked
+                      ? "border-green-500 bg-white"
+                      : "border-zinc-200 bg-zinc-50"
                   }`}
                 >
                   {badgeIcon(badge.icon, badge.unlocked)}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-zinc-900">{badge.label}</p>
+                  <p className="text-sm font-semibold text-zinc-900">
+                    {badge.label}
+                  </p>
                   <p className="text-[10px] font-black tracking-wider text-zinc-500">
                     {badge.date}
                   </p>
@@ -286,7 +320,9 @@ export default function Goals() {
         </section>
 
         <section className="rounded-2xl border border-zinc-200 bg-white p-6 transition-colors">
-          <h2 className="text-4xl font-semibold text-zinc-900">Recent Milestones</h2>
+          <h2 className="text-4xl font-semibold text-zinc-900">
+            Recent Milestones
+          </h2>
           <div className="relative mt-6 space-y-8 before:absolute before:bottom-2 before:left-2.5 before:top-2 before:w-0.5 before:bg-zinc-200">
             {milestones.map((milestone) => (
               <div key={milestone.id} className="relative pl-8">
