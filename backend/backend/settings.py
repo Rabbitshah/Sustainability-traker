@@ -1,14 +1,35 @@
 from pathlib import Path
 import os
 from datetime import timedelta
+import dj_database_url
 
 # ------------------------------------------------------------------------------
 # BASE & SECURITY
 # ------------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-lfkk8)d4g4ybcbi3uz-50j)vc++mimy2ahhervccsfxi!&f(dm'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _env_list(name: str, default=None):
+    if default is None:
+        default = []
+    raw = os.environ.get(name, "")
+    parsed = [item.strip() for item in raw.split(",") if item.strip()]
+    return parsed or default
+
+
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-lfkk8)d4g4ybcbi3uz-50j)vc++mimy2ahhervccsfxi!&f(dm",
+)
+DEBUG = _env_bool("DJANGO_DEBUG", True)
+ALLOWED_HOSTS = _env_list("DJANGO_ALLOWED_HOSTS", ["*"])
 
 # ------------------------------------------------------------------------------
 # APPS & MIDDLEWARE
@@ -64,12 +85,23 @@ TEMPLATES = [
 # ------------------------------------------------------------------------------
 # DATABASE & AUTH
 # ------------------------------------------------------------------------------
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -94,8 +126,13 @@ SIMPLE_JWT = {
 # ------------------------------------------------------------------------------
 # CORS & FILE HANDLING
 # ------------------------------------------------------------------------------
-CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOWED_ORIGINS = _env_list("CORS_ALLOWED_ORIGINS", ["http://localhost:5173"])
+CORS_ALLOW_ALL_ORIGINS = _env_bool("CORS_ALLOW_ALL_ORIGINS", True)
 CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = _env_list(
+    "CSRF_TRUSTED_ORIGINS",
+    ["http://localhost:5173", "http://127.0.0.1:5173"],
+)
 
 # Increase upload limits for large CSV/PDF files (10MB)
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760

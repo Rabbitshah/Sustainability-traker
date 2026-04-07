@@ -1,32 +1,44 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   FileText,
   Target,
   Users,
-  Settings,
+  Bell,
   LogOut,
 } from "lucide-react";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/logs", label: "Logs", icon: FileText },
-  { to: "/goals", label: "Goals", icon: Target },
-  { to: "/community", label: "Community", icon: Users },
-  { to: "/settings", label: "Settings", icon: Settings },
   { to: "/reports", label: "Reports", icon: FileText },
+  { to: "/goals", label: "Goals", icon: Target },
+  { to: "/notifications", label: "Notifications", icon: Bell },
+  { to: "/community", label: "Community", icon: Users },
 ];
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("isAuthenticated");
+    navigate("/login");
+  };
+
   return (
-    <aside className="w-72 bg-white border-r min-h-screen px-5 py-6 flex flex-col transition-colors duration-300">
-      <div className="flex items-center gap-2 mb-8">
+    <aside className="flex min-h-screen w-72 flex-col border-r border-slate-100 bg-white px-5 py-6 transition-colors duration-300">
+      <button
+        onClick={() => navigate("/dashboard")}
+        className="mb-8 flex items-center gap-2 text-left"
+      >
         <div className="h-10 w-10 rounded-xl bg-green-500 shadow-lg shadow-green-500/20" />
         <div>
-          <p className="font-bold text-lg leading-5">EcoTracker</p>
-          <p className="text-xs text-gray-500">SaaS Dashboard</p>
+          <p className="text-lg leading-5 font-bold text-zinc-900 transition-colors">EcoTracker</p>
+          <p className="text-xs text-gray-500 transition-colors">SaaS Dashboard</p>
         </div>
-      </div>
+      </button>
 
       <nav className="space-y-1 flex-1">
         {navItems.map((item) => {
@@ -51,15 +63,21 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-6 space-y-3 pt-6 border-t">
-        <button className="w-full text-left text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2">
-          <span className="h-8 w-8 rounded-lg bg-gray-100 flex items-center justify-center font-bold">
+      <div className="mt-6 space-y-3 border-t border-slate-100 pt-6">
+        <button
+          onClick={() => navigate("/community")}
+          className="flex w-full items-center gap-2 text-left text-sm text-gray-600 transition-colors hover:text-gray-900"
+        >
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 font-bold">
             ?
           </span>
-          Help Support
+          Help & Support
         </button>
-        <button className="w-full text-left text-sm text-red-600 hover:text-red-700 flex items-center gap-2">
-          <span className="h-8 w-8 rounded-lg bg-red-50 flex items-center justify-center">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-2 text-left text-sm text-red-600 transition-colors hover:text-red-700"
+        >
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50">
             <LogOut className="h-4 w-4" />
           </span>
           Logout

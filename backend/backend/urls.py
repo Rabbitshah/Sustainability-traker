@@ -16,32 +16,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.http import JsonResponse
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from core.views import CompanyViewSet, EmissionRecordViewSet, UploadedFileViewSet
+from core.views import (
+    register_user,
+    forgot_password,
+)
 from django.conf import settings
 from django.conf.urls.static import static
-from core.kpis import total_emissions, emissions_by_category, emissions_monthly_trend
-
-router = DefaultRouter()
-router.register("companies", CompanyViewSet)
-router.register("emissions", EmissionRecordViewSet)
-router.register("files", UploadedFileViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include('core.urls')),
+    path('api/health/', lambda request: JsonResponse({'status': 'ok'}), name='health_check'),
     
     path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/accounts/login/', TokenObtainPairView.as_view(), name='accounts_login'),
+    path('api/accounts/register/', register_user, name='accounts_register'),
+    path('api/accounts/forgot-password/', forgot_password, name='accounts_forgot_password'),
     
     path('api-auth/', include('rest_framework.urls')),
-    
-    path("api/kpis/total/", total_emissions),
-    path("api/kpis/category/", emissions_by_category),
-    path("api/kpis/monthly/", emissions_monthly_trend),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

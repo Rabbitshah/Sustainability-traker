@@ -22,14 +22,14 @@ def generate_pdf_report(company):
     p.line(100, height - 80, 500, height - 80)
 
     # 2. Key Statistics
-    total = EmissionRecord.objects.filter(company=company).aggregate(Sum('value'))['value__sum'] or 0
+    total = EmissionRecord.objects.filter(company=company).aggregate(Sum('co2e_impact'))['co2e_impact__sum'] or 0
     p.setFont("Helvetica-Bold", 14)
     p.drawString(100, height - 120, "Emission Summary")
     p.setFont("Helvetica", 12)
     p.drawString(100, height - 140, f"Total Carbon Footprint: {total:.2f} kg CO2e")
 
     # 3. AI Insights Section
-    insight = generate_emission_insight()
+    insight = generate_emission_insight(company=company)
     p.rect(95, height - 210, 410, 50, fill=0)
     p.setFont("Helvetica-Oblique", 11)
     p.drawString(105, height - 180, "AI Analysis & Advice:")
@@ -50,7 +50,7 @@ def generate_pdf_report(company):
             y = height - 50
         p.drawString(100, y, f"{rec.date}")
         p.drawString(200, y, f"{rec.category}")
-        p.drawString(400, y, f"{rec.value} {rec.unit}")
+        p.drawString(400, y, f"{rec.co2e_impact:.2f} kg CO2e")
         y -= 20
 
     p.showPage()
