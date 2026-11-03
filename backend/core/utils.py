@@ -6,9 +6,7 @@ from django.http import FileResponse
 def generate_emission_insight(company=None):
     today = date.today()
 
-    base_queryset = EmissionRecord.objects.all()
-    if company is not None:
-        base_queryset = base_queryset.filter(company=company)
+    base_queryset = EmissionRecord.objects.filter(company=company)
     
     # 1. Current Month Data
     this_month_qs = base_queryset.filter(

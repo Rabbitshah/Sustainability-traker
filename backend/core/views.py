@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view, permission_classes
@@ -72,7 +72,6 @@ def forgot_password(request):
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.none()
     serializer_class = CompanySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user
@@ -96,7 +95,6 @@ class CompanyViewSet(viewsets.ModelViewSet):
 class EmissionRecordViewSet(viewsets.ModelViewSet):
     queryset = EmissionRecord.objects.none()
     serializer_class = EmissionRecordSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user
@@ -117,7 +115,6 @@ class EmissionRecordViewSet(viewsets.ModelViewSet):
 class UploadedFileViewSet(viewsets.ModelViewSet):
     queryset = UploadedFile.objects.none()
     serializer_class = UploadedFileSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
@@ -134,7 +131,6 @@ class UploadedFileViewSet(viewsets.ModelViewSet):
         process_uploaded_file.delay(instance.id)
 
 class KPIViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def _user_company(self, request):
         user = request.user

@@ -8,23 +8,20 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = '__all__'
+        read_only_fields = ("owner",)
 
 
 class EmissionRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmissionRecord
         fields = '__all__'
-        extra_kwargs = {
-            "company": {"required": False}
-        }
+        read_only_fields = ("company", "co2e_impact")
 
 class UploadedFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadedFile
         fields = '__all__'
-        extra_kwargs = {
-            "company": {"required": False}
-        }
+        read_only_fields = ("company",)
 
 
 class RegisterSerializer(serializers.ModelSerializer):
