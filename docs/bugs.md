@@ -10,7 +10,7 @@ Re-run the script after every fix. Goal: 39/39.
 | S1 | Critical | A user can PATCH `company` to another user's company id. Records move into, or are planted in, the victim's data. | smoke: "cannot move record" FAIL. Serializer uses `fields = '__all__'`. | D8 |
 | S2 | High | Every endpoint is open to anonymous users (`IsAuthenticatedOrReadOnly`). `ai_advice` with no company aggregates **all users'** records. | smoke: 3 anon checks FAIL. `utils.py`: `EmissionRecord.objects.all()` when company is None. | D8 |
 | S3 | High | Weak passwords accepted (`"1"`). Django validators are not called in `RegisterSerializer`. | smoke FAIL | D10 |
-| S4 | High | `DEBUG=True` by default (404 page leaks URLconf). CORS allows any origin. `ALLOWED_HOSTS=*`. `SECRET_KEY` has a fallback. | smoke: DEBUG and CORS FAIL | D5 |
+| S4 | High | `DEBUG=True` by default (404 page leaks URLconf). CORS allows any origin. `ALLOWED_HOSTS=*`. `SECRET_KEY` has a fallback. | smoke: DEBUG and CORS FAIL | D5 (FIXED, 26/39) |
 | S5 | Med | Upload accepts any file. `file_type` is chosen by the client. | smoke: `.exe` accepted | D13 |
 | S6 | Med | `forgot-password` sends nothing. Fake feature. | code read | D15 |
 | S7 | Low | Two login routes (`/auth/login/`, `/accounts/login/`). Register reveals which emails exist. | code read | D8/D10 |
