@@ -7,6 +7,20 @@ services:
     ports:
       - "6379:6379"
 
+  # 1b. PostgreSQL (data persists in the pg_data volume)
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    env_file:
+      - ./backend/.env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
   # 2. Django Backend
   backend:
     build: ./backend
@@ -25,7 +39,10 @@ services:
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - redis
+      redis:
+        condition: service_started
+      db:
+        condition: service_healthy
 
   # 3. Celery Worker (Parses the CSV/PDFs)
   celery:
@@ -43,7 +60,9 @@ services:
     depends_on:
       - redis
       - backend
+      - db
 
 # Named volume to ensure files persist and are shared
 volumes:
+  pg_data:
   media_data:
