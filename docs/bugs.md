@@ -7,8 +7,8 @@ Re-run the script after every fix. Goal: 39/39.
 ## Security
 | ID | Sev | Problem | Evidence | Fix |
 |---|---|---|---|---|
-| S1 | Critical | A user can PATCH `company` to another user's company id. Records move into, or are planted in, the victim's data. | smoke: "cannot move record" FAIL. Serializer uses `fields = '__all__'`. | D8 |
-| S2 | High | Every endpoint is open to anonymous users (`IsAuthenticatedOrReadOnly`). `ai_advice` with no company aggregates **all users'** records. | smoke: 3 anon checks FAIL. `utils.py`: `EmissionRecord.objects.all()` when company is None. | D8 |
+| S1 | Critical | A user can PATCH `company` to another user's company id. Records move into, or are planted in, the victim's data. | smoke: "cannot move record" FAIL. Serializer uses `fields = '__all__'`. | D8 (FIXED, 31/39) |
+| S2 | High | Every endpoint is open to anonymous users (`IsAuthenticatedOrReadOnly`). `ai_advice` with no company aggregates **all users'** records. | smoke: 3 anon checks FAIL. `utils.py`: `EmissionRecord.objects.all()` when company is None. | D8 (FIXED, 31/39) |
 | S3 | High | Weak passwords accepted (`"1"`). Django validators are not called in `RegisterSerializer`. | smoke FAIL | D10 |
 | S4 | High | `DEBUG=True` by default (404 page leaks URLconf). CORS allows any origin. `ALLOWED_HOSTS=*`. `SECRET_KEY` has a fallback. | smoke: DEBUG and CORS FAIL | D5 (FIXED, 26/39) |
 | S5 | Med | Upload accepts any file. `file_type` is chosen by the client. | smoke: `.exe` accepted | D13 |
@@ -30,7 +30,7 @@ Re-run the script after every fix. Goal: 39/39.
 | I1 | Med | `ssl_require=True` forces SSL for any `DATABASE_URL`. Breaks local Postgres. | D6 |
 | I2 | Med | Docker runs `runserver` with code mounted as a volume. No Postgres, no healthchecks. | D6/D23 |
 | I3 | Low | Dependencies unpinned except Django. Builds are not reproducible. | D6 |
-| I4 | Low | No default permission class, no pagination, no throttling in DRF settings. | D8 |
+| I4 | Low | No default permission class, no pagination, no throttling in DRF settings. | D8 (permission part FIXED; pagination and throttling still open, not planned) |
 
 ## Frontend
 | ID | Sev | Problem | Fix |

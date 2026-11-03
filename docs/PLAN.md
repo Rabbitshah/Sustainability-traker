@@ -11,8 +11,10 @@ Goal: resume-ready personal carbon tracker. Live, tested, secure, documented. No
 | D4 | DONE | Purged tokens.txt, db.sqlite3, media/, __pycache__ via git filter-repo; force-pushed main, pushed hardening. Fresh GitHub clone has none. Backup: ~/Projects/Sustainability-traker-backup-2026-11-03 (still holds secrets; delete after D5). Secrets were exposed: rotate on D5. |
 | D5 | DONE | Env-only settings; boot refuses without 32+ char DJANGO_SECRET_KEY; DEBUG/CORS/ALLOWED_HOSTS safe defaults; new local key in gitignored backend/.env (old JWTs invalid). Smoke 26/39 (S4 fixed). Prod key must be set on the host at deploy (D24). |
 | D6 | DONE | Postgres 16 service + pg_data volume; DATABASE_SSL_REQUIRE env (default False); direct deps pinned to versions in the image. Clean clone: migrate OK, register 201, vendor=postgresql, smoke 26/39. Local sqlite data not migrated. |
-| D7 | NEXT | Buffer + checkpoint + 5-line week summary. |
-| D8+ | TODO | |
+| D7 | SKIPPED | Buffer day not used. Week-1 summary written. User's UI pass still empty. Frontend build + lint re-checked: pass. |
+| D8 | DONE | IsAuthenticated default, per-view overrides removed, company/co2e_impact/owner read-only, ai_advice never falls back to all users. Smoke 31/39 (S1, S2 fixed; I4 permission part fixed). |
+| D9 | NEXT | Single category/unit/factor source, drop 1.0 fallback, recalc on update (C1, C2). Factor sources: user looks up. |
+| D10+ | TODO | |
 
 ## Decisions
 - Audience: individuals. Keep `Company` model internally, no rename.
