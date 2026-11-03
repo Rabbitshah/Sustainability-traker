@@ -10,8 +10,9 @@ Goal: resume-ready personal carbon tracker. Live, tested, secure, documented. No
 | D3 | DONE | Commit 510378b. `git ls-files` shows no secrets. |
 | D4 | DONE | Purged tokens.txt, db.sqlite3, media/, __pycache__ via git filter-repo; force-pushed main, pushed hardening. Fresh GitHub clone has none. Backup: ~/Projects/Sustainability-traker-backup-2026-11-03 (still holds secrets; delete after D5). Secrets were exposed: rotate on D5. |
 | D5 | DONE | Env-only settings; boot refuses without 32+ char DJANGO_SECRET_KEY; DEBUG/CORS/ALLOWED_HOSTS safe defaults; new local key in gitignored backend/.env (old JWTs invalid). Smoke 26/39 (S4 fixed). Prod key must be set on the host at deploy (D24). |
-| D6 | NEXT | Postgres in compose + volume, fix ssl_require, pin deps. |
-| D7+ | TODO | |
+| D6 | DONE | Postgres 16 service + pg_data volume; DATABASE_SSL_REQUIRE env (default False); direct deps pinned to versions in the image. Clean clone: migrate OK, register 201, vendor=postgresql, smoke 26/39. Local sqlite data not migrated. |
+| D7 | NEXT | Buffer + checkpoint + 5-line week summary. |
+| D8+ | TODO | |
 
 ## Decisions
 - Audience: individuals. Keep `Company` model internally, no rename.
