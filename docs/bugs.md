@@ -18,8 +18,8 @@ Re-run the script after every fix. Goal: 39/39.
 ## Data correctness
 | ID | Sev | Problem | Evidence | Fix |
 |---|---|---|---|---|
-| C1 | High | UI sends `Energy` and `Food`. Backend has no factor for them, so the fallback is **1.0 kg per unit**. The UI preview shows 0.82 and 0.6. Saved numbers differ from what the user saw. Energy is also saved with unit `kg`. | `Logs.tsx` `categoryToBackend` vs `conversions.py` FACTORS. Verify in the UI pass. | D9 |
-| C2 | High | Editing a record does not recalculate `co2e_impact`. Client can set `co2e_impact` directly. | smoke: 2 FAIL | D9/D10 |
+| C1 | High | UI sends `Energy` and `Food`. Backend has no factor for them, so the fallback is **1.0 kg per unit**. The UI preview shows 0.82 and 0.6. Saved numbers differ from what the user saw. Energy is also saved with unit `kg`. | `Logs.tsx` `categoryToBackend` vs `conversions.py` FACTORS. Verify in the UI pass. | D9 (FIXED, 34/39) |
+| C2 | High | Editing a record does not recalculate `co2e_impact`. Client can set `co2e_impact` directly. | smoke: 2 FAIL | D9 (FIXED, 34/39) |
 | C3 | Med | No validation: negative values, future dates, unknown categories, unit not matching category. | smoke: 4 FAIL | D10 |
 | C4 | Med | Bad CSV returns 201 and fails silently (exception caught, printed, `return False`). No status field. No per-row validation. | smoke FAIL; `tasks.py` | D13 |
 | C5 | Low | `ai_advice` divides last month by 30 for every month. | `utils.py` | D18 |

@@ -13,8 +13,9 @@ Goal: resume-ready personal carbon tracker. Live, tested, secure, documented. No
 | D6 | DONE | Postgres 16 service + pg_data volume; DATABASE_SSL_REQUIRE env (default False); direct deps pinned to versions in the image. Clean clone: migrate OK, register 201, vendor=postgresql, smoke 26/39. Local sqlite data not migrated. |
 | D7 | SKIPPED | Buffer day not used. Week-1 summary written. User's UI pass still empty. Frontend build + lint re-checked: pass. |
 | D8 | DONE | IsAuthenticated default, per-view overrides removed, company/co2e_impact/owner read-only, ai_advice never falls back to all users. Smoke 31/39 (S1, S2 fixed; I4 permission part fixed). |
-| D9 | NEXT | Single category/unit/factor source, drop 1.0 fallback, recalc on update (C1, C2). Factor sources: user looks up. |
-| D10+ | TODO | |
+| D9 | DONE | `core/conversions.py` CATEGORIES = one table (energy, fuel, waste, transport, water, food) with unit + factor; `GET /api/categories/` feeds the frontend; unknown category/wrong unit -> 400; no 1.0 fallback; co2e recalculated on update; unit filled from category. Smoke 34/39 (C1, C2 fixed). ALL FACTORS ARE UNVERIFIED TEST DATA: TODO(user) in conversions.py. |
+| D10 | NEXT | Validation, error format, password validators (S3, C3). |
+| D11+ | TODO | |
 
 ## Decisions
 - Audience: individuals. Keep `Company` model internally, no rename.
