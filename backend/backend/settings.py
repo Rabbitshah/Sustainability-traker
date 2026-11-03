@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 # ------------------------------------------------------------------------------
 # BASE & SECURITY
@@ -24,12 +25,14 @@ def _env_list(name: str, default=None):
     return parsed or default
 
 
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-lfkk8)d4g4ybcbi3uz-50j)vc++mimy2ahhervccsfxi!&f(dm",
-)
-DEBUG = _env_bool("DJANGO_DEBUG", True)
-ALLOWED_HOSTS = _env_list("DJANGO_ALLOWED_HOSTS", ["*"])
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
+if len(SECRET_KEY) < 32:
+    raise ImproperlyConfigured(
+        "DJANGO_SECRET_KEY is missing or shorter than 32 characters. "
+        "Copy backend/.env.example to backend/.env and set it."
+    )
+DEBUG = _env_bool("DJANGO_DEBUG", False)
+ALLOWED_HOSTS = _env_list("DJANGO_ALLOWED_HOSTS", ["localhost", "127.0.0.1"])
 
 # ------------------------------------------------------------------------------
 # APPS & MIDDLEWARE
@@ -127,7 +130,7 @@ SIMPLE_JWT = {
 # CORS & FILE HANDLING
 # ------------------------------------------------------------------------------
 CORS_ALLOWED_ORIGINS = _env_list("CORS_ALLOWED_ORIGINS", ["http://localhost:5173"])
-CORS_ALLOW_ALL_ORIGINS = _env_bool("CORS_ALLOW_ALL_ORIGINS", True)
+CORS_ALLOW_ALL_ORIGINS = _env_bool("CORS_ALLOW_ALL_ORIGINS", False)
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = _env_list(
     "CSRF_TRUSTED_ORIGINS",
