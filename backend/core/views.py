@@ -20,7 +20,7 @@ from .serializers import (
     RegisterSerializer,
 )
 from .tasks import process_uploaded_file
-from .conversions import calculate_co2e
+from .conversions import calculate_co2e, CATEGORIES
 
 
 def get_or_create_user_company(user):
@@ -52,6 +52,13 @@ def register_user(request):
             },
         },
         status=status.HTTP_201_CREATED,
+    )
+
+
+@api_view(["GET"])
+def categories_list(request):
+    return Response(
+        [{"key": k, "unit": v["unit"], "factor": float(v["factor"])} for k, v in CATEGORIES.items()]
     )
 
 
@@ -111,6 +118,13 @@ class EmissionRecordViewSet(viewsets.ModelViewSet):
         impact = calculate_co2e(cat, val)
         company = get_or_create_user_company(self.request.user)
         serializer.save(company=company, co2e_impact=impact)
+
+    def perform_update(self, serializer):
+        """Recalculate CO2e from the merged category/value so edits cannot leave stale numbers"""
+        data = serializer.validated_data
+        category = data.get('category', serializer.instance.category)
+        value = data.get('value', serializer.instance.value)
+        serializer.save(co2e_impact=calculate_co2e(category, value))
 
 class UploadedFileViewSet(viewsets.ModelViewSet):
     queryset = UploadedFile.objects.none()

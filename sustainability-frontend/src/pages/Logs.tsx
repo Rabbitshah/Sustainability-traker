@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import {
   emissionsApi,
+  categoriesApi,
   type EmissionCategory,
   type EmissionRecord,
 } from "../services/emissions";
@@ -31,12 +32,6 @@ const categoryToBackend: Record<CategoryKey, EmissionCategory> = {
   Waste: "Waste",
 };
 
-const impactFactor = {
-  Travel: 0.21,
-  Energy: 0.82,
-  Food: 0.6,
-  Waste: 0.52,
-};
 
 const formatShortDate = (isoDate: string) => {
   const target = new Date(`${isoDate}T00:00:00`);
@@ -56,6 +51,15 @@ export default function Logs() {
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("Travel");
   const [transportMode, setTransportMode] = useState<TransportMode>("Car");
   const [distanceKm, setDistanceKm] = useState(15);
+  const [factors, setFactors] = useState<Record<string, number>>({});
+  useEffect(() => {
+    categoriesApi
+      .list()
+      .then((list) =>
+        setFactors(Object.fromEntries(list.map((c) => [c.key, c.factor]))),
+      )
+      .catch((error) => console.error("Failed to load categories", error));
+  }, []);
   const [electricity, setElectricity] = useState(12.4);
   const [renewable, setRenewable] = useState(true);
   const [dietType, setDietType] = useState<DietType>("Meat-based (Omnivore)");
@@ -125,8 +129,13 @@ export default function Logs() {
   ]);
 
   const estimatedImpact = useMemo(
-    () => Number((entryValue * impactFactor[activeCategory]).toFixed(2)),
-    [entryValue, activeCategory],
+    () => Number(
+        (
+          entryValue *
+          (factors[categoryToBackend[activeCategory].toLowerCase()] ?? 0)
+        ).toFixed(2),
+      ),
+    [entryValue, activeCategory, factors],
   );
 
   const dailyLimit = 20;
@@ -162,7 +171,6 @@ export default function Logs() {
       await emissionsApi.create({
         category: categoryToBackend[activeCategory],
         value: entryValue,
-        unit: activeCategory === "Travel" ? "km" : "kg",
         date: new Date().toISOString().split("T")[0],
       });
       await loadRecentLogs();

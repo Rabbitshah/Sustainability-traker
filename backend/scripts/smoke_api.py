@@ -119,9 +119,9 @@ s, t, _ = call("GET", "/api/kpis/ai_advice/")
 check("anon GET /kpis/ai_advice/ -> 401", s == 401, f"got {s}; body={t[:120]!r}")
 
 # ---------- emissions CRUD + validation ----------
-s, t, _ = call("POST", "/api/emissions/", {"date": today, "category": "electricity", "value": "100", "unit": "kWh"}, tokA)
+s, t, _ = call("POST", "/api/emissions/", {"date": today, "category": "energy", "value": "100", "unit": "kWh"}, tokA)
 rec = jget(t) or {}
-check("create electricity 100 kWh -> 201", s == 201, f"{s} {t[:200]!r}")
+check("create energy 100 kWh -> 201", s == 201, f"{s} {t[:200]!r}")
 try:
     check("co2e for 100 kWh == 82", float(rec.get("co2e_impact", -1)) == 82.0, rec.get("co2e_impact"))
 except Exception:
@@ -130,9 +130,9 @@ rid = rec.get("id")
 
 bad = [
     ("unknown category rejected", {"date": today, "category": "banana", "value": "5", "unit": "x"}),
-    ("negative value rejected", {"date": today, "category": "electricity", "value": "-5", "unit": "kWh"}),
-    ("future date rejected", {"date": "2099-01-01", "category": "electricity", "value": "5", "unit": "kWh"}),
-    ("unit must match category (electricity in L)", {"date": today, "category": "electricity", "value": "5", "unit": "L"}),
+    ("negative value rejected", {"date": today, "category": "energy", "value": "-5", "unit": "kWh"}),
+    ("future date rejected", {"date": "2099-01-01", "category": "energy", "value": "5", "unit": "kWh"}),
+    ("unit must match category (energy in L)", {"date": today, "category": "energy", "value": "5", "unit": "L"}),
     ("empty body rejected", {}),
 ]
 for name, payload in bad:
@@ -180,7 +180,7 @@ check("PDF report -> 200 + %PDF", s == 200 and t[:4] == b"%PDF", f"{s} {t[:60]!r
 
 # ---------- CSV upload ----------
 before = count(tokA)
-good = f"date,category,value,unit\n{today},electricity,10,kWh\n{today},fuel,2,L\n".encode()
+good = f"date,category,value,unit\n{today},energy,10,kWh\n{today},fuel,2,L\n".encode()
 body, hd = multipart({"file_type": "csv"}, "good.csv", good)
 s, t, _ = call("POST", "/api/files/", token=tokA, headers=hd, raw=body)
 check("upload good CSV -> 201", s == 201, f"{s} {t[:200]!r}")

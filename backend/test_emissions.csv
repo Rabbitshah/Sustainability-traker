@@ -1,4 +1,4 @@
 date,category,value,unit
-2026-01-01,electricity,450,kWh
+2026-01-01,energy,450,kWh
 2026-01-02,fuel,20,L
-2026-01-03,electricity,320,kWh
+2026-01-03,energy,320,kWh

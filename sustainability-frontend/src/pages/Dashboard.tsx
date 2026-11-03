@@ -506,7 +506,6 @@ export default function Dashboard() {
             try {
               await emissionsApi.create({
                 ...data,
-                unit: "kg",
               });
               setOpenLogModal(false);
               await loadDashboardData();

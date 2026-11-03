@@ -1,6 +1,6 @@
 import pandas as pd
 from .models import EmissionRecord
-from .conversions import calculate_co2e
+from .conversions import calculate_co2e, CATEGORIES
 
 def process_csv(file_path, company):
     # Load the data
@@ -19,9 +19,9 @@ def process_csv(file_path, company):
         EmissionRecord(
             company=company,
             date=row["date"],
-            category=row["category"],
+            category=str(row["category"]).strip().lower(),
             value=row["value"],
-            unit=row.get("unit", "kg"),
+            unit=CATEGORIES[str(row["category"]).strip().lower()]["unit"],
             # 🔥 NEW: Automatically calculate the carbon impact
             co2e_impact=calculate_co2e(row["category"], row["value"])
         )

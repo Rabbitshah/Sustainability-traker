@@ -7,7 +7,7 @@ export type CreateEmissionPayload = {
   category: EmissionCategory | string;
   value: number;
   date?: string;
-  unit: string;
+  unit?: string; // server fills it from the category
 };
 
 export type EmissionRecord = {
@@ -19,6 +19,15 @@ export type EmissionRecord = {
   unit: string;
   co2e_impact: number;
   created_at: string;
+};
+
+export type CategoryInfo = { key: string; unit: string; factor: number };
+
+export const categoriesApi = {
+  list: async () => {
+    const res = await api.get("/categories/");
+    return res.data as CategoryInfo[];
+  },
 };
 
 export const emissionsApi = {
