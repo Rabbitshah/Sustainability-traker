@@ -8,8 +8,9 @@ Goal: resume-ready personal carbon tracker. Live, tested, secure, documented. No
 | D1 | DONE | Docker up on Mac. API :8000 OK, Celery ready. |
 | D2 | DONE except UI pass | `backend/scripts/smoke_api.py` = 24/39 in Docker. Baseline in `docs/bugs.md`. UI table in bugs.md still empty (user fills). |
 | D3 | DONE | Commit 510378b. `git ls-files` shows no secrets. |
-| D4 | NEXT | History still contains tokens.txt, db.sqlite3, uploads. Needs backup + force-push. ASK USER FIRST. |
-| D5+ | TODO | |
+| D4 | DONE | Purged tokens.txt, db.sqlite3, media/, __pycache__ via git filter-repo; force-pushed main, pushed hardening. Fresh GitHub clone has none. Backup: ~/Projects/Sustainability-traker-backup-2026-11-03 (still holds secrets; delete after D5). Secrets were exposed: rotate on D5. |
+| D5 | NEXT | Env-only settings, new SECRET_KEY (invalidates old JWTs). |
+| D6+ | TODO | |
 
 ## Decisions
 - Audience: individuals. Keep `Company` model internally, no rename.
