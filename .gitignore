@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets and local data
+.env
+*.env.local
+tokens.txt
+db.sqlite3
+backend/media/
+
+# Node
+node_modules/
+sustainability-frontend/dist/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
